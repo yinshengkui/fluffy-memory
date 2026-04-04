@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Piggy's Letter Adventure</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🐷</text></svg>">
+</head>
+<body>
+  <div id="app">
+    <!-- Welcome Screen -->
+    <div id="screen-welcome" class="screen active">
+      <div class="countryside-bg"></div>
+      <div class="welcome-content">
+        <div id="welcome-piggy" class="piggy-welcome"></div>
+        <h1 class="game-title">Piggy's Letter Adventure</h1>
+        <p class="subtitle">Learn letters with your piggy friends!</p>
+        <button id="btn-start" class="btn-big btn-play" aria-label="Start the game">
+          <span class="btn-icon">&#9654;</span> Let's Go!
+        </button>
+      </div>
+      <div class="grass-footer"></div>
+    </div>
+
+    <!-- Intro Screen -->
+    <div id="screen-intro" class="screen">
+      <div class="countryside-bg"></div>
+      <div class="story-box">
+        <div id="intro-piggy" class="piggy-small"></div>
+        <p class="story-text" id="intro-text"></p>
+        <button id="btn-intro-next" class="btn-big btn-next">Next</button>
+      </div>
+      <div class="grass-footer"></div>
+    </div>
+
+    <!-- Round Screen -->
+    <div id="screen-round" class="screen">
+      <div class="countryside-bg"></div>
+      <div class="round-header">
+        <div class="progress-bar">
+          <div class="progress-fill" id="progress-fill"></div>
+          <div class="progress-stars" id="progress-stars"></div>
+        </div>
+      </div>
+
+      <!-- Phase: Letter Reveal -->
+      <div id="phase-reveal" class="phase">
+        <div class="letter-showcase">
+          <div class="letter-big" id="letter-display"></div>
+          <p class="letter-word" id="letter-word"></p>
+        </div>
+        <div class="round-illustration" id="round-illustration"></div>
+        <button id="btn-reveal-next" class="btn-big btn-next">Find it!</button>
+      </div>
+
+      <!-- Phase: Pick -->
+      <div id="phase-pick" class="phase hidden">
+        <p class="pick-prompt" id="pick-prompt"></p>
+        <div class="pick-grid" id="pick-grid"></div>
+      </div>
+
+      <!-- Phase: Trace -->
+      <div id="phase-trace" class="phase hidden">
+        <p class="trace-prompt">Trace the letter!</p>
+        <div class="trace-area">
+          <canvas id="trace-canvas" width="300" height="300"></canvas>
+          <div class="trace-guide" id="trace-guide"></div>
+        </div>
+        <button id="btn-trace-done" class="btn-big btn-next">Done!</button>
+      </div>
+
+      <!-- Phase: Celebrate -->
+      <div id="phase-celebrate" class="phase hidden">
+        <div class="celebrate-content">
+          <div class="star-burst" id="star-burst"></div>
+          <p class="celebrate-text" id="celebrate-text"></p>
+          <div id="celebrate-piggy" class="piggy-celebrate"></div>
+        </div>
+        <button id="btn-celebrate-next" class="btn-big btn-next" style="margin-top:1rem;">Next Round</button>
+      </div>
+
+      <div class="grass-footer"></div>
+    </div>
+
+    <!-- Final Screen -->
+    <div id="screen-final" class="screen">
+      <div class="countryside-bg countryside-bg-sunset"></div>
+      <div class="final-content">
+        <div class="trophy-area" id="trophy-area"></div>
+        <h2 class="final-title">Amazing Job!</h2>
+        <p class="final-subtitle" id="final-subtitle"></p>
+        <div class="final-stars" id="final-stars"></div>
+        <button id="btn-replay" class="btn-big btn-play">Play Again!</button>
+      </div>
+      <div class="grass-footer"></div>
+    </div>
+
+    <!-- Audio context init overlay (needed for mobile) -->
+    <div id="audio-init" class="audio-init hidden"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
