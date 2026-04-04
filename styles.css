@@ -1,0 +1,194 @@
+
+/* ===== Celebrate Phase ===== */
+.celebrate-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.celebrate-text {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--pink-dark);
+  text-align: center;
+  animation: celebratePulse 0.8s ease infinite;
+}
+
+@keyframes celebratePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.star-burst {
+  font-size: 3rem;
+  animation: burstSpin 2s linear infinite;
+}
+
+@keyframes burstSpin {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+/* ===== Confetti ===== */
+.confetti {
+  position: fixed;
+  top: -20px;
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  z-index: 100;
+  pointer-events: none;
+  animation: confettiFall linear forwards;
+}
+
+@keyframes confettiFall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ===== Final Screen ===== */
+.final-content {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  text-align: center;
+}
+
+.trophy-area {
+  font-size: 5rem;
+  animation: trophyBounce 1.5s ease infinite;
+}
+
+@keyframes trophyBounce {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-15px) rotate(5deg); }
+}
+
+.final-title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--pink-dark);
+  text-shadow: 0 3px 0 rgba(0,0,0,0.1);
+}
+
+.final-subtitle {
+  font-size: 1.2rem;
+  color: var(--brown);
+  font-weight: 600;
+}
+
+.final-stars {
+  display: flex;
+  gap: 16px;
+  font-size: 2.5rem;
+}
+
+.final-star {
+  animation: finalStarPop 0.5s ease backwards;
+}
+
+.final-star:nth-child(2) { animation-delay: 0.2s; }
+.final-star:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes finalStarPop {
+  0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* ===== Floating Elements ===== */
+.float-element {
+  position: absolute;
+  z-index: 1;
+  animation: floatBob 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes floatBob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ===== Audio Init ===== */
+.audio-init {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 1.8rem;
+  }
+  .letter-big {
+    font-size: 6rem;
+  }
+  .round-illustration {
+    width: 120px;
+    height: 120px;
+  }
+  .btn-big {
+    font-size: 1.3rem;
+    padding: 14px 36px;
+  }
+  .story-text {
+    font-size: 1.1rem;
+  }
+  .trace-area {
+    width: 240px;
+    height: 240px;
+  }
+  .trace-guide {
+    font-size: 10rem;
+  }
+  .piggy-welcome, .piggy-celebrate {
+    width: 140px;
+    height: 140px;
+  }
+}
+
+@media (max-width: 360px) {
+  .game-title {
+    font-size: 1.5rem;
+  }
+  .letter-big {
+    font-size: 5rem;
+  }
+  .pick-grid {
+    gap: 10px;
+  }
+  .pick-card {
+    padding: 14px 8px;
+    min-height: 100px;
+  }
+}
+
+@media (min-width: 768px) {
+  .game-title {
+    font-size: 3.2rem;
+  }
+  .letter-big {
+    font-size: 10rem;
+  }
+  .pick-grid {
+    max-width: 480px;
+    gap: 20px;
+  }
+  .pick-card {
+    min-height: 150px;
+  }
+}
