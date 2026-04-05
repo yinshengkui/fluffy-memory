@@ -15,12 +15,64 @@
     <div id="screen-welcome" class="screen active">
       <div class="countryside-bg"></div>
       <div class="welcome-content">
+        <div class="top-actions">
+          <button id="btn-open-settings" class="btn-pill btn-soft" aria-label="Open settings">⚙ Settings</button>
+        </div>
         <div id="welcome-piggy" class="piggy-welcome"></div>
         <h1 class="game-title">Piggy's Letter Adventure</h1>
         <p class="subtitle">Learn letters with your piggy friends!</p>
-        <button id="btn-start" class="btn-big btn-play" aria-label="Start the game">
-          <span class="btn-icon">&#9654;</span> Let's Go!
-        </button>
+        <div class="welcome-actions">
+          <button id="btn-start" class="btn-big btn-play" aria-label="Start the game">
+            <span class="btn-icon">▶</span> Start Adventure
+          </button>
+          <button id="btn-open-levels" class="btn-big btn-next" aria-label="Choose a level">
+            Choose Level
+          </button>
+        </div>
+      </div>
+      <div class="grass-footer"></div>
+    </div>
+
+    <!-- Levels Screen -->
+    <div id="screen-levels" class="screen">
+      <div class="countryside-bg"></div>
+      <div class="panel-card level-panel">
+        <div class="panel-header">
+          <button id="btn-levels-back" class="btn-pill btn-soft">← Back</button>
+          <h2 class="panel-title">Level Map</h2>
+        </div>
+        <p class="panel-subtitle">Start with the early letter groups and unlock more adventures!</p>
+        <div id="levels-grid" class="levels-grid"></div>
+      </div>
+      <div class="grass-footer"></div>
+    </div>
+
+    <!-- Settings Screen -->
+    <div id="screen-settings" class="screen">
+      <div class="countryside-bg"></div>
+      <div class="panel-card settings-panel">
+        <div class="panel-header">
+          <button id="btn-settings-back" class="btn-pill btn-soft">← Back</button>
+          <h2 class="panel-title">Settings</h2>
+        </div>
+        <div class="settings-list">
+          <label class="setting-item">
+            <span>Chinese Voice Guide</span>
+            <input id="toggle-voice" type="checkbox" checked>
+          </label>
+          <label class="setting-item">
+            <span>Sound Effects</span>
+            <input id="toggle-sfx" type="checkbox" checked>
+          </label>
+          <label class="setting-item">
+            <span>Background Music</span>
+            <input id="toggle-bgm" type="checkbox">
+          </label>
+        </div>
+        <div class="settings-note">
+          <p>V1 uses browser-based Chinese voice prompts and reserves a music slot for later background music assets.</p>
+        </div>
+        <button id="btn-settings-save" class="btn-big btn-play">Save Settings</button>
       </div>
       <div class="grass-footer"></div>
     </div>
@@ -30,6 +82,7 @@
       <div class="countryside-bg"></div>
       <div class="story-box">
         <div id="intro-piggy" class="piggy-small"></div>
+        <div id="intro-step-indicator" class="intro-step-indicator">Step 1 / 3</div>
         <p class="story-text" id="intro-text"></p>
         <button id="btn-intro-next" class="btn-big btn-next">Next</button>
       </div>
@@ -40,13 +93,16 @@
     <div id="screen-round" class="screen">
       <div class="countryside-bg"></div>
       <div class="round-header">
+        <div class="round-meta">
+          <div id="current-level-label" class="level-chip">Level</div>
+          <button id="btn-round-home" class="btn-pill btn-soft">Home</button>
+        </div>
         <div class="progress-bar">
           <div class="progress-fill" id="progress-fill"></div>
           <div class="progress-stars" id="progress-stars"></div>
         </div>
       </div>
 
-      <!-- Phase: Letter Reveal -->
       <div id="phase-reveal" class="phase">
         <div class="letter-showcase">
           <div class="letter-big" id="letter-display"></div>
@@ -56,13 +112,11 @@
         <button id="btn-reveal-next" class="btn-big btn-next">Find it!</button>
       </div>
 
-      <!-- Phase: Pick -->
       <div id="phase-pick" class="phase hidden">
         <p class="pick-prompt" id="pick-prompt"></p>
         <div class="pick-grid" id="pick-grid"></div>
       </div>
 
-      <!-- Phase: Trace -->
       <div id="phase-trace" class="phase hidden">
         <p class="trace-prompt">Trace the letter!</p>
         <div class="trace-area">
@@ -72,7 +126,6 @@
         <button id="btn-trace-done" class="btn-big btn-next">Done!</button>
       </div>
 
-      <!-- Phase: Celebrate -->
       <div id="phase-celebrate" class="phase hidden">
         <div class="celebrate-content">
           <div class="star-burst" id="star-burst"></div>
@@ -93,12 +146,14 @@
         <h2 class="final-title">Amazing Job!</h2>
         <p class="final-subtitle" id="final-subtitle"></p>
         <div class="final-stars" id="final-stars"></div>
-        <button id="btn-replay" class="btn-big btn-play">Play Again!</button>
+        <div class="welcome-actions">
+          <button id="btn-replay" class="btn-big btn-play">Play Again!</button>
+          <button id="btn-back-to-levels" class="btn-big btn-next">More Levels</button>
+        </div>
       </div>
       <div class="grass-footer"></div>
     </div>
 
-    <!-- Audio context init overlay (needed for mobile) -->
     <div id="audio-init" class="audio-init hidden"></div>
   </div>
 
