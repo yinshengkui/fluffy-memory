@@ -44,7 +44,7 @@ body {
 .screen {
   position: absolute;
   inset: 0;
-  display: flex;
+  display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -55,6 +55,7 @@ body {
 }
 
 .screen.active {
+  display: flex;
   opacity: 1;
   pointer-events: auto;
   z-index: 10;
