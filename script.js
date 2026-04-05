@@ -130,15 +130,17 @@
       { id: illustration, label: word, icon: illustration, correct: true },
       ...distractors.map((icon) => ({ id: icon, label: toLabel(icon), icon, correct: false })),
     ];
+    const zhWord = toChinese(word);
     return {
       letter,
       word,
+      zhWord,
       illustration,
       prompt: `Which one starts with ${letter}?`,
-      zhPrompt: `请找出 ${toChinese(word)}。`,
+      zhPrompt: `请找出 ${zhWord}。${word} 的中文是${zhWord}，${zhWord}的英文是 ${word}。`,
       celebrateMsg: `${letter} is for ${word}!`,
-      revealVoice: `这是字母 ${letter}。${letter}，${letter}，${letter}。${toChinese(word)}。`,
-      traceVoice: `请描一描字母 ${letter}。`,
+      revealVoice: `这是字母 ${letter}。${letter}，${letter}，${letter}。${word}。${word} 的中文是 ${zhWord}。${zhWord} 的英文是 ${word}。`,
+      traceVoice: `请用手指或者鼠标，描一描字母 ${letter}。`,
       options,
     };
   }
@@ -415,7 +417,7 @@
     const round = currentRounds[currentRound];
     updateProgress();
     setText('#letter-display', round.letter);
-    setHTML('#letter-word', `${round.letter} is for <strong>${round.word}</strong>`);
+    setHTML('#letter-word', `${round.letter} is for <strong>${round.word}</strong> · ${round.zhWord}`);
     setHTML('#round-illustration', SVG[round.illustration]());
     showScreen('round');
     showPhase('reveal');
@@ -424,7 +426,7 @@
 
   function setupPick() {
     const round = currentRounds[currentRound];
-    setText('#pick-prompt', round.prompt);
+    setText('#pick-prompt', `${round.prompt} / ${round.word} = ${round.zhWord}`);
     speakForScreen('pick');
     const shuffled = [...round.options].sort(() => Math.random() - 0.5);
     const grid = $('#pick-grid');
@@ -465,30 +467,76 @@
 
   function setupTrace() {
     const round = currentRounds[currentRound];
+    const area = $('#trace-area');
+    const status = $('#trace-status');
+    const clearBtn = $('#btn-trace-clear');
+    let hasDrawn = false;
+
     setText('#trace-guide', round.letter);
+    setText('#trace-hint', `Trace ${round.letter} · ${round.word} · ${round.zhWord}`);
+    setText('#trace-status', 'Waiting to trace...');
+
     const canvas = $('#trace-canvas');
-    const rect = canvas.parentElement.getBoundingClientRect();
-    canvas.width = rect.width * (window.devicePixelRatio || 1);
-    canvas.height = rect.height * (window.devicePixelRatio || 1);
+    const rect = area.getBoundingClientRect();
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = rect.width * dpr;
+    canvas.height = rect.height * dpr;
     canvas.style.width = rect.width + 'px';
     canvas.style.height = rect.height + 'px';
+
     const newCanvas = canvas.cloneNode(true);
     canvas.parentElement.replaceChild(newCanvas, canvas);
     newCanvas.id = 'trace-canvas';
+
     const ctx = newCanvas.getContext('2d');
-    ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+    ctx.scale(dpr, dpr);
     ctx.strokeStyle = '#E05580';
     ctx.lineWidth = 8;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
+
     let drawing = false;
     let lastX = 0;
     let lastY = 0;
+
+    function updateTraceStatus(text) {
+      setText('#trace-status', text);
+    }
+
+    function clearTrace() {
+      ctx.clearRect(0, 0, rect.width, rect.height);
+      hasDrawn = false;
+      area.classList.remove('drawing');
+      updateTraceStatus('Canvas cleared. Try tracing again!');
+    }
+
+    clearBtn.onclick = () => {
+      playClick();
+      clearTrace();
+    };
+
     function getPos(e) {
       const canvasRect = newCanvas.getBoundingClientRect();
       const touch = e.touches ? e.touches[0] : e;
-      return { x: touch.clientX - canvasRect.left, y: touch.clientY - canvasRect.top };
+      return {
+        x: touch.clientX - canvasRect.left,
+        y: touch.clientY - canvasRect.top,
+      };
     }
+
+    function startDraw(e) {
+      e.preventDefault();
+      drawing = true;
+      area.classList.add('drawing');
+      const pos = getPos(e);
+      lastX = pos.x;
+      lastY = pos.y;
+      if (!hasDrawn) {
+        hasDrawn = true;
+        updateTraceStatus('Great! Keep tracing ✨');
+      }
+    }
+
     function drawMove(e) {
       e.preventDefault();
       if (!drawing) return;
@@ -500,13 +548,24 @@
       lastX = pos.x;
       lastY = pos.y;
     }
-    newCanvas.addEventListener('mousedown', (e) => { e.preventDefault(); drawing = true; const pos = getPos(e); lastX = pos.x; lastY = pos.y; });
+
+    function endDraw(e) {
+      if (e) e.preventDefault();
+      drawing = false;
+      area.classList.remove('drawing');
+      if (hasDrawn) {
+        updateTraceStatus('Nice tracing! Tap Done when ready.');
+      }
+    }
+
+    newCanvas.addEventListener('mousedown', startDraw);
     newCanvas.addEventListener('mousemove', drawMove);
-    newCanvas.addEventListener('mouseup', () => { drawing = false; });
-    newCanvas.addEventListener('mouseleave', () => { drawing = false; });
-    newCanvas.addEventListener('touchstart', (e) => { e.preventDefault(); drawing = true; const pos = getPos(e); lastX = pos.x; lastY = pos.y; }, { passive: false });
+    newCanvas.addEventListener('mouseup', endDraw);
+    newCanvas.addEventListener('mouseleave', endDraw);
+    newCanvas.addEventListener('touchstart', startDraw, { passive: false });
     newCanvas.addEventListener('touchmove', drawMove, { passive: false });
-    newCanvas.addEventListener('touchend', (e) => { e.preventDefault(); drawing = false; }, { passive: false });
+    newCanvas.addEventListener('touchend', endDraw, { passive: false });
+    newCanvas.addEventListener('touchcancel', endDraw, { passive: false });
   }
 
   function showCelebrate() {

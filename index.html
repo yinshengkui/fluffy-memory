@@ -119,11 +119,16 @@
 
       <div id="phase-trace" class="phase hidden">
         <p class="trace-prompt">Trace the letter!</p>
-        <div class="trace-area">
+        <p id="trace-hint" class="trace-hint">Use your finger or mouse to trace on the screen.</p>
+        <div class="trace-area" id="trace-area">
           <canvas id="trace-canvas" width="300" height="300"></canvas>
           <div class="trace-guide" id="trace-guide"></div>
         </div>
-        <button id="btn-trace-done" class="btn-big btn-next">Done!</button>
+        <div id="trace-status" class="trace-status">Waiting to trace...</div>
+        <div class="trace-actions">
+          <button id="btn-trace-clear" class="btn-pill btn-soft">Clear</button>
+          <button id="btn-trace-done" class="btn-big btn-next">Done!</button>
+        </div>
       </div>
 
       <div id="phase-celebrate" class="phase hidden">
